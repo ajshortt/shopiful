@@ -1,6 +1,6 @@
 {
   "name": "shopiful",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Sever-side middleware, generating API endpoints to access Shopify products decorated with extra Contentful provided data.",
   "keywords": [
     "shopify",

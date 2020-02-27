@@ -1,6 +1,9 @@
 # Shopiful
 Sever-side middleware, generating API endpoints to access Shopify products decorated with extra Contentful provided data.
 
+![npm](https://img.shields.io/npm/v/shopiful)
+![GitHub](https://img.shields.io/github/license/ajshortt/shopiful)
+![GitHub issues](https://img.shields.io/github/issues/ajshortt/shopiful)
 
 Utilising the [Shopify Storefront API](https://github.com/Shopify/js-buy-sdk), the middleware fetches both collections and products from Shopify then intrinsically fetches extra data from [Contentful](https://www.contentful.com/).
 
