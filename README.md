@@ -1,11 +1,11 @@
 # Shopiful
-Sever-side middleware, generating API endpoints to access Shopify products decorated with extra Contentful provided data.
+Sever-side middleware, generating API endpoints to access Shopify products decorated with extra Contentful entry data.
 
 ![npm](https://img.shields.io/npm/v/shopiful)
 ![GitHub](https://img.shields.io/github/license/ajshortt/shopiful)
 ![GitHub issues](https://img.shields.io/github/issues/ajshortt/shopiful)
 
-Utilising the [Shopify Storefront API](https://github.com/Shopify/js-buy-sdk), the middleware fetches both collections and products from Shopify then intrinsically fetches extra data from [Contentful](https://www.contentful.com/).
+Utilising the [Shopify Storefront API](https://github.com/Shopify/js-buy-sdk), the middleware fetches collections or products from Shopify then intrinsically fetches related the relative entry from [Contentful](https://www.contentful.com/).
 
 Why? 🧐 Because whilst Shopify is great for most ecommerce features, it isn't geared for adding rich page content. So this module helps solve that 👍🏼
 
@@ -20,12 +20,14 @@ Firstly, it is assumed you already have a Shopify store. If not, head over to [S
 ### Setup
 
 Add Shopiful dependency to your project
-```
-// Yarn
-yarn add shopiful
 
-// NPM
-npm install shopiful
+Using Yarn:
+```bash
+$ yarn add shopiful
+```
+Using NPM:
+```bash
+$ npm install shopiful
 ```
 
 Add the module to your `nuxt.config.js` file
@@ -39,7 +41,7 @@ export default {
 
 #### Configuration variables
 
-Now you'll then need to grab the following configuration keys:
+Now you'll need to grab the following configuration keys:
 
 **Shopify**
 - Store domain (e.g `your-shop-name.myshopify.com`)
@@ -49,25 +51,46 @@ Now you'll then need to grab the following configuration keys:
 - Space ID
 - Access token
 
-It is recommended that these keys are stored in an `.env` file and made available to the middleware via the [`@nuxtjs/dotenv` package](https://github.com/nuxt-community/dotenv-module). Add the keys like so:
+It is recommended that these keys are stored in an `.env` file and made available to the middleware via the [`@nuxtjs/dotenv` package](https://github.com/nuxt-community/dotenv-module). Store the keys like so:
 ```
 shopify_access_token=xxx
 shopify_domain=xxx
 contentful_space_id=xxx
 contentful_access_token=xxx
 ```
-It is likely you'll be using the Shopify SDK on the client side too so storing the keys here will make it handy for two reasons!
+It is likely you'll be using the Shopify SDK on the client side for processing carts and checkouts so storing the keys here will make it handy for that too.
 
 ## Options
-> ⚠️ Currently, options are not available. They will be available in  coming releases.
+> ⚠️ Currently, options are not available. They will be available in upcoming releases.
 
 ### Proposed options
 - Cache - Boolean - Cache SSR request feature
 - API Path - String - Add custom API path (default `/api/{products|collections}`)
 
+## Contentful setup
+
+Now we have the module setup, we need to configure the [content model](https://www.contentful.com/developers/docs/concepts/data-model/) in Contentful so data entities link correctly to products. Use the following steps:
+
+- Head over to your admin panel of Contentful
+- Navigate to your space and go to "Content Model"
+- Click "Add Content Type" and give it the name "Product"
+- Now navigate to the new content type and add a field
+- Add a text field. Call it "ID". The Field ID will automatically generate as "id". This also should be a short text field
+- Click "Create and configure"
+- Navigate to "Validations" and check "Required field" and "Unique field"
+- Now navigation to "Apperance" and select "slug"
+
+Now you can add as many or as little fields to this entry type to help decorate your products.
+
+## Linking a Shopify product with Contentful entry
+
+To link a Contentful product entry to a Shopify product, you'll need to add the Shopify product ID to the entry you create in the ID field. This will now link the entry with the Shopify product.
+
+![Screenshot 2020-02-27 at 23 06 44](https://user-images.githubusercontent.com/6783995/75495305-20f3f400-59b6-11ea-85cd-673ac2cdc4ae.jpg)
+
 ## Examples
 
-If you're not already, you should reallty use [axios](https://github.com/axios/axios) for your applications HTTP requests. Nuxt have their [own module](https://axios.nuxtjs.org/) for this get this installed. If you don't like axios then by all means use whatever method you want.
+We recommend using [axios](https://github.com/axios/axios) for your applications HTTP requests. Nuxt have a [module](https://axios.nuxtjs.org/) for this. If you don't like axios then by all means use whatever method you want.
 
 ### In `asyncData`
 ```javascript
@@ -112,6 +135,13 @@ export const actions = {
 * [Shopify Buy](https://www.npmjs.com/package/shopify-buy) - Shopify JavaScript Buy SDK
 * [Contentful](https://www.npmjs.com/package/contentful) - Contentful JavaScript Delivery SDK
 * [Express](https://www.npmjs.com/package/express) - Used for generating the API routes
+
+## Roadmap
+- 🔥Add options functionality
+- 🔥Improve defencive code fallbacks
+- 🔷Add tests
+- 🔻Convert to typescript
+- 🔻Add collections decorating
 
 ## Contributing
 
