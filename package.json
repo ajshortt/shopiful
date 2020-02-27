@@ -9,6 +9,10 @@
     "nuxt",
     "SSR"
   ],
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/ajshortt/shopiful"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
