@@ -68,7 +68,7 @@ If you're not already, you should reallty use [axios](https://github.com/axios/a
 
 ### In `asyncData`
 ```javascript
-// pages/product/_slug.vue
+// pages/products/_slug.vue
 
 export default {
   asyncData({ app, params, error }) {
@@ -87,6 +87,8 @@ export default {
 ### Hydrating store with `nuxtServerInit`
 
 ```javascript
+// store/index.js
+
 export const actions = {
   nuxtServerInit({ commit, dispatch }, { app }) {
     const collectionsRequest = app
