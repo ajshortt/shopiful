@@ -6,9 +6,46 @@ const { Router } = require('express')
 
 const router = Router()
 
+// router.get('/test', function(req, res, next) {
+//   const query = ShopifyClient.graphQLClient.query((root) => {
+//     root.addConnection(
+//       "products",
+//       {
+//         args: { first: 250 },
+//       },
+//       (Product) => {
+//         Product.add("title");
+//         Product.add("tags");
+//         Product.addConnection(
+//           "variants",
+//           { args: { first: 250 } },
+//           (variants) => {
+//             variants.add("product");
+//             variants.add("title");
+//             variants.add("price");
+//             variants.add("sku");
+//           }
+//         );
+//       }
+//     );
+//   });
+//   ShopifyClient.graphQLClient.send(query).then(({ model, data }) => {
+//     // const products = data.map((productData) => {
+//     //   const product = new Product(productData)
+//     //   return product.get
+//     // })
+//     res.json(data)
+//  });
+// })
+
 router.get('/test', function(req, res, next) {
-  ShopifyClient.product.fetchAllWithTags().then((response) => {
-    res.json(response)
+  ShopifyClient.product.fetchAllWithTags().then((data) => {
+    // console.log(data)
+    // const products = data.map((productData) => {
+    //   const product = new Product(productData)
+    //   return product.get
+    // })
+    res.json(data)
   })
 })
 
@@ -19,7 +56,8 @@ router.get('/collections', function(req, res, next) {
 })
 
 router.get('/products', function(req, res, next) {
-  ShopifyClient.product.fetchAll().then((data) => {
+  ShopifyClient.product.fetchAllWithTags().then((data) => {
+  // ShopifyClient.product.fetchAll().then((data) => {
     const products = data.map((productData) => {
       const product = new Product(productData)
       return product.get
