@@ -24,6 +24,7 @@ class ExtendedClient {
         },
         (Product) => {
           Product.add("title");
+          Product.add("handle");
           Product.add("tags");
           Product.addConnection(
             "variants",
