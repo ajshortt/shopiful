@@ -27,6 +27,15 @@ class ExtendedClient {
           Product.add("handle");
           Product.add("tags");
           Product.addConnection(
+            "images",
+            { args: { first: 250 } },
+            (images) => {
+              images.add("id");
+              images.add("src");
+              images.add("altText");
+            }
+          );
+          Product.addConnection(
             "variants",
             { args: { first: 250 } },
             (variants) => {
@@ -40,18 +49,10 @@ class ExtendedClient {
       );
     });
 
-    // return new Promise((resolve) => {
-
     return client.graphQLClient
       .send(query)
-      // .send(productConnectionQuery, {first})
       .then(defaultResolver('products'))
       .then(paginateProductConnectionsAndResolve(client.graphQLClient));
-
-      // .then((response) => {
-      //   resolve(response)
-      // });
-    // })
   }
 
   get() {
