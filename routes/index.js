@@ -2,6 +2,7 @@ const ContentfulClient = require('../_clients/Contentful')
 const ShopifyClient = require('../_clients/Shopify')
 const Product = require('../_models/Product')
 const ProductDecorator = require('../_models/ProductDecorator')
+const { encodeShopifyId } = require('../_utils/shopifyHelpers.js')
 const { Router } = require('express')
 
 const router = Router()
