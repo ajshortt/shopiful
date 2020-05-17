@@ -3,3 +3,7 @@ module.exports.decodeShopifyId = function(id) {
   const gidParts = gid.split('/')
   return gidParts[gidParts.length - 1]
 }
+
+module.exports.encodeShopifyId = function(id) {
+  return Buffer.from(id).toString('base64')
+}
