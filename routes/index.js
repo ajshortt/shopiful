@@ -1,5 +1,5 @@
-const ContentfulClient = require('../_clients/contentful')
-const ShopifyClient = require('../_clients/shopify')
+const ContentfulClient = require('../_clients/Contentful')
+const ShopifyClient = require('../_clients/Shopify')
 const Product = require('../_models/Product')
 const ProductDecorator = require('../_models/ProductDecorator')
 const { Router } = require('express')
@@ -13,7 +13,7 @@ router.get('/collections', function(req, res, next) {
 })
 
 router.get('/products', function(req, res, next) {
-  ShopifyClient.product.fetchAll().then((data) => {
+  ShopifyClient.product.fetchAllWithTags().then((data) => {
     const products = data.map((productData) => {
       const product = new Product(productData)
       return product.get
