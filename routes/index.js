@@ -30,7 +30,9 @@ router.get("/products/:query", function (req, res, next) {
     : ShopifyClient.product.fetchByHandle(query);
 
   if (isIdQuery) {
-    query = 'NDYxMzA2Njk4MTUwOQ=='
+    query = 'Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0LzQ2MTMwNjY5ODE1MDk='
+    // eslint-disable-next-line no-console
+    console.log('ID')
   }
 
   productFetcher
