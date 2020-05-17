@@ -22,10 +22,20 @@ router.get('/products', function(req, res, next) {
   })
 })
 
-router.get('/products/:slug', function(req, res, next) {
-  const { slug } = req.params
-  ShopifyClient.product
-    .fetchByHandle(slug)
+
+router.get('/products/:query', function(req, res, next) {
+  let { query } = req.params
+  const isIdQuery = query.match(/^[0-9]+$/) != null
+
+  if (isIdQuery) {
+    query = encodeShopifyId(`gid://shopify/Product/${query}`)
+  }
+
+  const productFetcher = isIdQuery
+    ? ShopifyClient.product.fetch(query)
+    : ShopifyClient.product.fetchByHandle(query)
+
+  productFetcher
     .then((data) => {
       const product = new Product(data)
       const id = product.getId
