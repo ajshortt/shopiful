@@ -1,7 +1,8 @@
-const ContentfulClient = require('../_clients/contentful')
-const ShopifyClient = require('../_clients/shopify')
+const ContentfulClient = require('../_clients/Contentful')
+const ShopifyClient = require('../_clients/Shopify')
 const Product = require('../_models/Product')
 const ProductDecorator = require('../_models/ProductDecorator')
+const { encodeShopifyId } = require('../_utils/shopifyHelpers.js')
 const { Router } = require('express')
 
 const router = Router()
@@ -13,7 +14,7 @@ router.get('/collections', function(req, res, next) {
 })
 
 router.get('/products', function(req, res, next) {
-  ShopifyClient.product.fetchAll().then((data) => {
+  ShopifyClient.product.fetchAllWithTags().then((data) => {
     const products = data.map((productData) => {
       const product = new Product(productData)
       return product.get
@@ -22,10 +23,20 @@ router.get('/products', function(req, res, next) {
   })
 })
 
-router.get('/products/:slug', function(req, res, next) {
-  const { slug } = req.params
-  ShopifyClient.product
-    .fetchByHandle(slug)
+
+router.get('/products/:query', function(req, res, next) {
+  let { query } = req.params
+  const isIdQuery = query.match(/^[0-9]+$/) != null
+
+  if (isIdQuery) {
+    query = encodeShopifyId(`gid://shopify/Product/${query}`)
+  }
+
+  const productFetcher = isIdQuery
+    ? ShopifyClient.product.fetch(query)
+    : ShopifyClient.product.fetchByHandle(query)
+
+  productFetcher
     .then((data) => {
       const product = new Product(data)
       const id = product.getId
